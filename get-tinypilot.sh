@@ -141,6 +141,9 @@ if [[ "${HTTP_CODE}" != "200" ]]; then
   exit 1
 fi
 
+# Ensure we have dependencies if we don't install tinypilot via .deb
+sudo apt install -y libc6 libgcc-s1 libstdc++6 adduser python3 python3-pip python3-env sudo
+
 # Extract tarball to installer directory. The installer directory and all its
 # content must have root ownership.
 sudo tar \
