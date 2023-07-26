@@ -17,6 +17,11 @@ set -x
 HAS_PRO_INSTALLED=0
 
 SCRIPT_DIR="$(dirname "$0")"
+
+# Ensure we have dependencies if we don't install tinypilot via .deb, and ensure we're starting clean
+sudo apt install -y libc6 libgcc-s1 libstdc++6 adduser python3 python3-pip python3-env sudo
+sudo apt --purge remove tinypilot
+
 # If they're piping this script in from stdin, guess that TinyPilot is
 # in the default location.
 if [[ "$SCRIPT_DIR" = "." ]]; then
@@ -140,9 +145,6 @@ if [[ "${HTTP_CODE}" != "200" ]]; then
   echo "Failed to download tarball with HTTP response status code ${HTTP_CODE}." >&2
   exit 1
 fi
-
-# Ensure we have dependencies if we don't install tinypilot via .deb
-sudo apt install -y libc6 libgcc-s1 libstdc++6 adduser python3 python3-pip python3-env sudo
 
 # Extract tarball to installer directory. The installer directory and all its
 # content must have root ownership.
